@@ -23,14 +23,14 @@ class Grid
 
     end
 
-    def print_grid 
+    def print_grid
         @row.times do |i|
             @col.times do |j|
                 print @grid[i][j].status + ' '
             end
             puts
         end
-        @grid    
+        @grid
     end
 
 end
@@ -45,7 +45,7 @@ class Game
     #Recorre toda el grid
     def run_matrix
         p 'nueva matrix'
-        neighbors(1,1)
+        neighbors(2,1)
 
         # (0..@row - 1).each do |i|
         #     (0..@col - 1).each do |j|
@@ -53,7 +53,7 @@ class Game
         #         neighbors(i,j)
         #     end
         #     puts
-        # end              
+        # end
     end
     #Recorre los vecinos recibiendo una celda
         # ...
@@ -65,15 +65,21 @@ class Game
         # #...
     def neighbors(posx,posy)
         neighbors = 0
-        
-        #posx = 1
-        #posy = 1
-        #k = 0
-        #l = 0
+
+        #posx = 2
+        #posy = 0
+        #k = -1
+        #l = -1
+
+        # 
+        # . . .
+        # . . .
+        # . . .
+
         #Recorre los vecinos
         (-1..1).each do |k|
             (-1..1).each do |l|
-                if !(k == 0 && l == 0)  #posx + k >= 0 && posy + l >= 0 
+                if !(k == 0 && l == 0) && (posx + k >= 0 && posy + l >= 0) && (posy + k <= @row - 1 && posx + l <= @col -1) #posx + k >= 0 && posy + l >= 0
                     print @grid[posx + k][posy + l].status + ' '
                     neighbors += 1
                 end
@@ -82,7 +88,7 @@ class Game
         end
         puts neighbors
     end
-end 
+end
 
 
 print 'Ingrese el numero de filas: '
@@ -96,4 +102,3 @@ grid = grid.print_grid
 
 game= Game.new(grid)
 game.run_matrix
-        
