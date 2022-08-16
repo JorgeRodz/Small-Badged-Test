@@ -29,31 +29,60 @@ class Grid
                 print @grid[i][j].status + ' '
             end
             puts
-        end    
+        end
+        @grid    
     end
 
 end
 
 class Game
     def initialize(grid)
-        @row = grid.length
-        @col = grid[0].length
+        @row = grid.size
+        @col = grid[0].size
+        @grid = grid
+    end
 
-    end
-    
-    def grid_values
-        puts "Número de filas: #{@row} número de cols: #{@col}" 
-    end
-end  
     #Recorre toda el grid
-    # def run_matrix
-    #     (0..@row).each do |i|
-    #         (0..@col).each do |j|
-    #         end
-    #     end              
-    # end
-    #Recorre los vecinos recibiendo una celda
+    def run_matrix
+        p 'nueva matrix'
+        neighbors(1,1)
 
+        # (0..@row - 1).each do |i|
+        #     (0..@col - 1).each do |j|
+        #         print @grid[i][j].status, ' '
+        #         neighbors(i,j)
+        #     end
+        #     puts
+        # end              
+    end
+    #Recorre los vecinos recibiendo una celda
+        # ...
+        # .*.
+        # ...
+          #####
+        # #*..
+        # #...
+        # #...
+    def neighbors(posx,posy)
+        neighbors = 0
+        
+        #posx = 1
+        #posy = 1
+        #k = 0
+        #l = 0
+        #Recorre los vecinos
+        (-1..1).each do |k|
+            (-1..1).each do |l|
+                if !(k == 0 && l == 0)  #posx + k >= 0 && posy + l >= 0 
+                    print @grid[posx + k][posy + l].status + ' '
+                    neighbors += 1
+                end
+            end
+            puts ''
+        end
+        puts neighbors
+    end
+end 
 
 
 print 'Ingrese el numero de filas: '
@@ -63,8 +92,8 @@ print 'Ingrese el numero de columnas: '
 col = gets.chomp.to_i
 
 grid = Grid.new(row, col)
-grid.print_grid
+grid = grid.print_grid
 
 game= Game.new(grid)
-game.grid_values
+game.run_matrix
         
