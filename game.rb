@@ -7,9 +7,6 @@ class Cell
         @status = @type[rand(2)]
     end
 
-    def change_s
-        status ? '*' : '.'
-    end
 end
 
 # Clase tablero
@@ -36,57 +33,57 @@ class Grid
 end
 
 class Game
+    attr_accessor 
     def initialize(grid)
         @row = grid.size
         @col = grid[0].size
         @grid = grid
+        @new_grid = grid
     end
 
     #Recorre toda el grid
     def run_matrix
         p 'nueva matrix'
-        neighbors(2,1)
-
-        # (0..@row - 1).each do |i|
-        #     (0..@col - 1).each do |j|
-        #         print @grid[i][j].status, ' '
-        #         neighbors(i,j)
-        #     end
-        #     puts
-        # end
+        counter = 0
+        (0..@row - 1).each do |i|
+            (0..@col - 1).each do |j|
+                # print @grid[i][j].status, ' '
+                counter = neighbors(i,j).to_i
+                # print counter
+                print rules(i, j, counter, @grid[i][j].status) + " "
+            end
+            puts
+        end
     end
+
     #Recorre los vecinos recibiendo una celda
-        # ...
-        # .*.
-        # ...
-          #####
-        # #*..
-        # #...
-        # #...
     def neighbors(posx,posy)
         neighbors = 0
-
-        #posx = 2
-        #posy = 0
-        #k = -1
-        #l = -1
-
-        # 
-        # . . .
-        # . . .
-        # . . .
 
         #Recorre los vecinos
         (-1..1).each do |k|
             (-1..1).each do |l|
-                if !(k == 0 && l == 0) && (posx + k >= 0 && posy + l >= 0) && (posy + k <= @row - 1 && posx + l <= @col -1) #posx + k >= 0 && posy + l >= 0
-                    print @grid[posx + k][posy + l].status + ' '
-                    neighbors += 1
+                if !(k == 0 && l == 0) && (posx + k >= 0 && posy + l >= 0) && (posx + k < @row && posy + l < @col) #posx + k >= 0 && posy + l >= 0
+                    # print @grid[posx + k][posy + l].status + ' '
+                    @grid[posx + k][posy + l].status == "*" ? neighbors += 1 : neighbors += 0
+                    # neighbors += 1
                 end
             end
-            puts ''
+            # puts ''
         end
-        puts neighbors
+        return neighbors
+    end
+
+    def rules(pos_x, pos_y, neighbors, status)
+        if status == "*" && (neighbors < 2 || neighbors > 3)
+            return "."
+        elsif status == "*" && neighbors >= 2
+            return "*"
+        elsif status == "." && neighbors == 3
+            return "*"
+        else
+            return "."
+        end
     end
 end
 
